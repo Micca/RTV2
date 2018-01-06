@@ -1,0 +1,32 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (tmp\debug\) contains files shared from another project (Visualisierung1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Compiling MainWindow..h using MOC
+  Compiling GLWidget..h using MOC
+  UIC MainWindow.ui
+  Volume.cpp
+  VectorField.cpp
+  Vector.cpp
+  PdbLoader.cpp
+  NetCDFLoader.cpp
+c:\users\tklein\documents\gitlab\rtvis\framework\src\netcdfloader.cpp(80): warning C4267: 'argument': conversion from 'size_t' to 'glm::tvec3<float,0>::length_type', possible loss of data
+c:\users\tklein\documents\gitlab\rtvis\framework\src\netcdfloader.cpp(88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\tklein\documents\gitlab\rtvis\framework\src\netcdfloader.cpp(12): warning C4101: 'rh_array': unreferenced local variable
+  MultiSet.cpp
+  MainWindow.cpp
+  Main.cpp
+  GLWidget.cpp
+c:\users\tklein\documents\gitlab\rtvis\framework\src\glwidget.cpp(317): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\tklein\documents\gitlab\rtvis\framework\src\glwidget.cpp(322): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\tklein\documents\gitlab\rtvis\framework\src\glwidget.cpp(327): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\tklein\documents\gitlab\rtvis\framework\src\glwidget.cpp(477): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\tklein\documents\gitlab\rtvis\framework\src\glwidget.cpp(509): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Camera.cpp
+c:\users\tklein\documents\gitlab\rtvis\framework\src\camera.cpp(21): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\tklein\documents\gitlab\rtvis\framework\src\camera.cpp(92): warning C4305: '=': truncation from 'double' to 'float'
+  moc_MainWindow.cpp
+  moc_GLWidget.cpp
+  Generating Code...
+  glsw.c
+  bstrlib.c
+  Generating Code...
+  Visualisierung1.vcxproj -> C:\Users\tklein\Documents\GitLab\rtVis\framework\bin\debug\RTVis.exe
+  Visualisierung1.vcxproj -> bin\debug\RTVis.pdb (Full PDB)

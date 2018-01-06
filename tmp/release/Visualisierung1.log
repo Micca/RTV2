@@ -1,0 +1,33 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (tmp\release\) contains files shared from another project (Visualisierung1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Compiling MainWindow..h using MOC
+  Compiling GLWidget..h using MOC
+  UIC MainWindow.ui
+  moc_GLWidget.cpp
+  moc_MainWindow.cpp
+  Camera.cpp
+src\Camera.cpp(21): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(92): warning C4305: '=': truncation from 'double' to 'float'
+  GLWidget.cpp
+src\GLWidget.cpp(317): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+src\GLWidget.cpp(322): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+src\GLWidget.cpp(327): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+src\GLWidget.cpp(477): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+src\GLWidget.cpp(509): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Main.cpp
+  MainWindow.cpp
+  MultiSet.cpp
+  NetCDFLoader.cpp
+src\NetCDFLoader.cpp(80): warning C4267: 'argument': conversion from 'size_t' to 'glm::tvec3<float,0>::length_type', possible loss of data
+src\NetCDFLoader.cpp(88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+src\NetCDFLoader.cpp(12): warning C4101: 'rh_array': unreferenced local variable
+  PdbLoader.cpp
+  Vector.cpp
+  VectorField.cpp
+  Volume.cpp
+  bstrlib.c
+  glsw.c
+  Generating code
+  All 1344 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Visualisierung1.vcxproj -> C:\Users\tklein\Documents\GitLab\rtVis\framework\bin\release\RTVis.exe
+  Visualisierung1.vcxproj -> bin\release\RTVis.pdb (Full PDB)

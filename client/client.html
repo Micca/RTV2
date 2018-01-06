@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+
+<style type="text/css">
+    html, body {
+        margin: 0;
+        background-color: white;
+        color: white;
+    }
+</style>
+<meta charset="utf-8" />
+    
+<script src="http://d3js.org/d3.v2.min.js"> /* data visualization library */ </script>
+<script src="three.min.js"> /* 3D WebGL library */ </script>
+
+<script id="vertexShader" type="x-shader/x-vertex">
+// TODO
+</script>
+
+<script id="fragmentShader" type="x-shader/x-fragment">
+// TODO
+</script>
+
+<script language="javascript" type="text/javascript">
+
+    // NOTE ON JAVASCRIPT METHOD CHAINING (CASCADING)
+    // each method must return an object that provides the next method in the chain.
+    //
+    // examples:
+    // truck.turnLeft().turnRight().goReallyFast(); // here all methods return same object via this
+    // d3.select("body")       // here we call select method of d3 object which returns a DOM object
+    //   .append("svg")        // call append method of body object which returns another DOM object
+    //   .attr("width", 10)    // call attr method of svg object which returns itself via this
+    //   .attr("height", 10);  // call attr method of same svg object again
+
+    // NOTE DEBUGGING
+    // use browser console for debugging!
+
+    // 2D draw area, with margin for axis labels
+    var margin = { top: 20, right: 20, bottom: 60, left: 60 },
+    width = 500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+    
+    // initial value ranges for KDE
+    // changed via panning and zooming
+    var minX = -100;
+    var maxX = 500;
+    var minY = -100;
+    var maxY = 600;
+
+    // related to threejs
+    var dataTexture;
+    var material;
+    var scene, camera, renderer;
+    var geometry, mesh;
+    var TFUniforms;
+    var texData; // KDE result data
+
+    var wsUri = "ws://localhost:8001",
+        websock = new WebSocket(wsUri);
+        
+    var drawContextInitialized = false;
+        
+    var websocket = {
+    
+        // the : is used when defining an object and its properties.
+        // here the functions defined as properties are called by their label, e.g. open(evt).
+        // these are just normal functions as properties of an object
+       
+        open: function (evt) {
+            // request KDE calculation from server in given value ranges
+            // 2D KDE result is stored as image
+            console.log("req_image");
+            websock.send("KDE " + minX + " " + maxX + " " + minY + " " + maxY);
+            websock.send("req_image");
+        },
+        
+        close: function (evt) {
+            // if socket is closed (TCP connection closed by server), try to reconnect
+            setTimeout(function () { window.location.href = 'client.html'; }, 3000);
+            document.write('Socket disconnected. Restarting..');
+        },
+        
+        message: function (evt) {
+
+            // message contains KDE result image
+            // then 4 byte specifying resolution
+            // then 4 byte specifying the bin of maximum probability
+            // note: littleEndian = true, i.e. stored sequentially from least significant
+            // to most significant bit, e.g. number 123 stored as 321
+            var msgByteLength = evt.data.byteLength;
+            if (!drawContextInitialized)
+                texData = new Float32Array(evt.data.slice(0, msgByteLength - 8));
+            else
+                texData.set(new Float32Array(evt.data.slice(0, msgByteLength - 8)));
+            var dataview = new DataView(evt.data); // to read data from ArrayBuffer at any offset
+            var resolution = dataview.getInt32(msgByteLength - 8, true);
+            var maxIntensity = dataview.getInt32(msgByteLength - 4, true);
+
+            console.log("message length " + msgByteLength);
+            console.log("kde result data image resolution " + dataview.getInt32(msgByteLength - 8, true));
+            console.log("max intensity " + dataview.getInt32(msgByteLength - 4, true));
+                
+            // linear mapping of X random variable points of interest to draw area x axis
+            var x = d3.scale.linear()
+                .domain([minX, maxX])
+                .range([0, width]);
+
+            // linear mapping of Y random variable points of interest to draw area y axis
+            var y = d3.scale.linear()
+                .domain([minY, maxY])
+                .range([height, 0]);
+
+            // svg container for axes
+            d3.select("svg").remove(); // clear existing svg container
+            var svg = d3.select("body") // return DOM object (related to html element) body
+                .append("svg") // in body object create new svg object and return it
+                .attr("width", width + margin.left + margin.right) // set svg attr and return itself
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g") // in svg object create group of svg shapes and return it
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); // etc.
+
+            // d3 axes
+            var xAxis = d3.svg.axis()
+                .scale(x) // scale axis to range x
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+            
+            // draw x axis
+            // note on "call" function:
+            // below xAxis is a function returned by axis().
+            // <whatever>.call(xAxis) is same as xAxis(<whatever>),
+            // i.e. run xAxis() function on <whatever>, here on the svg group g object.
+            svg.append("g") // group of svg shapes
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .attr("fill", "#888")
+                .call(xAxis)
+                .append("text")
+                .attr("class", "label")
+                .attr("x", width)
+                .attr("y", 42)
+                .style("text-anchor", "end")
+                .text("departure delay (mins)");
+            
+            // draw y axis
+            svg.append("g")
+                .attr("class", "y axis")
+                .attr("fill", "#888")
+                .call(yAxis)
+                .append("text")
+                .attr("class", "label")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -60)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("arrival delay (mins)");
+
+            var texSize = texData.length;
+            var texWidth = Math.sqrt(texSize);
+
+            if (!drawContextInitialized) {
+
+                // kde histogram data texture
+                dataTexture = new THREE.DataTexture(texData, texWidth, texWidth, THREE.LuminanceFormat, THREE.FloatType);
+                dataTexture.wrapS = THREE.ClampToEdgeWrapping;
+                dataTexture.wrapT = THREE.ClampToEdgeWrapping;
+                dataTexture.repeat.set(1, 1);
+                dataTexture.needsUpdate = true;
+
+                // quad geometry
+                geometry = new THREE.PlaneGeometry(width, height, 1, 1);
+
+                // basic material with histogram data texture
+                // TODO
+                material = new THREE.MeshBasicMaterial( {wireframe: false, map: dataTexture } );
+
+                // mesh
+                mesh = new THREE.Mesh(geometry, material);
+
+                // scene
+                scene = new THREE.Scene();
+                scene.add(mesh);
+                
+                // ortho camera
+                // clipping plane distances: left, right, top, bottom, near, far
+                camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 1, 1000);
+                camera.position.z = 1000;
+
+                // renderer
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(width, height);
+
+                // renderer placement
+                renderer.domElement.style.position = "absolute";
+                renderer.domElement.style.top = (margin.top) + "px";
+                renderer.domElement.style.left = (margin.left) + "px";
+                renderer.domElement.style.zIndex = "1";
+
+                // append renderer to DOM
+                document.body.appendChild(renderer.domElement);
+
+                drawContextInitialized = true;
+
+            }
+
+            dataTexture.needsUpdate = true;
+
+            // render once
+            renderer.render(scene, camera);
+
+        },
+        
+        error: function (evt) {
+            console.log('error', evt);
+        }
+    };
+
+    function init() {
+    
+        websock.binaryType = "arraybuffer";
+
+        websock.onopen = websocket.open;
+        websock.onclose = websocket.close;
+        websock.onmessage = websocket.message;
+        websock.onerror = websocket.error
+    }
+
+    // note: bool parameter indicates whether event should propagate from outermost element inward instead of the default from innermost out.
+    window.addEventListener("load", init, false);
+    // TODO add listeners to create interaction, e.g. mousemove, wheel etc.
+
+</script>
