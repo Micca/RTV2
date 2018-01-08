@@ -1,14 +1,14 @@
-﻿Build started 16.11.2016 17:09:35.
-     1>Project "E:\Projects\RTVisTask1\RTVis.vcxproj" on node 2 (Clean target(s)).
-     1>CudaClean:
-         cmd.exe /C "C:\Users\vad\AppData\Local\Temp\tmp12c72c6da39e48938fb879a4685531a2.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64"  -Isrc -Igenerated -Ilib -Ilib\glew\include -Ilib\qt\include -Ilib\qt\include\QtCLucene -Ilib\qt\include\QtCore -Ilib\qt\include\QtGui -Ilib\qt\include\QtOpenGL -Ilib\qt\include\QtOpenGLExtensions -Ilib\qt\include\QtPlatformSupport -Ilib\qt\include\QtUiTools -Ilib\qt\include\QtWidgets -Ilib\qt\include\QtZlib -Ilib\qt\include\QtNetwork -Ilib\qt\include\QtXml -Ilib\glm -Ilib\glsw -I"lib\netCDF 4.4.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile      -D_USE_MATH_DEFINES -D_MBCS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MD " -o tmp\release\KDE2D.cu.obj "E:\Projects\RTVisTask1\KDE2D.cu" -clean
-         
-         E:\Projects\RTVisTask1>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64"  -Isrc -Igenerated -Ilib -Ilib\glew\include -Ilib\qt\include -Ilib\qt\include\QtCLucene -Ilib\qt\include\QtCore -Ilib\qt\include\QtGui -Ilib\qt\include\QtOpenGL -Ilib\qt\include\QtOpenGLExtensions -Ilib\qt\include\QtPlatformSupport -Ilib\qt\include\QtUiTools -Ilib\qt\include\QtWidgets -Ilib\qt\include\QtZlib -Ilib\qt\include\QtNetwork -Ilib\qt\include\QtXml -Ilib\glm -Ilib\glsw -I"lib\netCDF 4.4.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile      -D_USE_MATH_DEFINES -D_MBCS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MD " -o tmp\release\KDE2D.cu.obj "E:\Projects\RTVisTask1\KDE2D.cu" -clean 
-     1>CUDACOMPILE : nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
-         KDE2D.cu
-     1>Done Building Project "E:\Projects\RTVisTask1\RTVis.vcxproj" (Clean target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:00.47
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (tmp\release\) contains files shared from another project (Visualisierung1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Compiling CUDA source file KDE2D.cu...
+  
+  C:\Users\Public\RTVisTask2\RTVisTask2>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env --cl-version 2015 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64"  -Isrc -Igenerated -Ilib -Ilib\glew\include -Ilib\qt\include -Ilib\qt\include\QtCLucene -Ilib\qt\include\QtCore -Ilib\qt\include\QtGui -Ilib\qt\include\QtOpenGL -Ilib\qt\include\QtOpenGLExtensions -Ilib\qt\include\QtPlatformSupport -Ilib\qt\include\QtUiTools -Ilib\qt\include\QtWidgets -Ilib\qt\include\QtZlib -Ilib\qt\include\QtNetwork -Ilib\qt\include\QtXml -Ilib\glm -Ilib\glsw -I"lib\netCDF 4.4.1\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -D_USE_MATH_DEFINES -D_MBCS -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MD " -o tmp\release\KDE2D.cu.obj "C:\Users\Public\RTVisTask2\RTVisTask2\KDE2D.cu" 
+  KDE2D.cu
+C:/Users/Public/RTVisTask2/RTVisTask2/KDE2D.cu(94): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  MainWindow.cpp
+  Generating code
+  37 of 842 functions ( 4.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    9 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  RTVis.vcxproj -> C:\Users\Public\RTVisTask2\RTVisTask2\bin\release\RTVis.exe
+  RTVis.vcxproj -> bin\release\RTVis.pdb (Full PDB)

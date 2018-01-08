@@ -70,7 +70,7 @@ void MainWindow::openFile(const QString &filename)
             MainWindow::arrivalDelays.reserve(oneArraySize);
 
             // TODO remove this restriction when GPU algorithm is implemented
-            int upto = 500; // only take subset of data (otherwise it takes a long time). 0 means no limit.
+            int upto = 50000; // only take subset of data (otherwise it takes a long time). 0 means no limit.
 
             while (!in.eof()) {
 
